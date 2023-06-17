@@ -1,0 +1,1 @@
+react nodejs mongodb postgresql firebase jwt paypal cloudinary nodemailer passport-google-oauth2

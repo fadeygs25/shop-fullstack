@@ -1,0 +1,89 @@
+import React from "react";
+import axios from 'axios';
+import * as ActionTypes from '../ContextActions';
+import {
+    ORDERS_FETCH_URL,
+    ORDER_CREATE_URL
+} from '@/api/urls';
+import { getCookie } from 'react-use-cookie';
+import OrderReducer from '../action/OrderReducer';
+
+const OrderContext = React.createContext();
+
+export const useOrders = () => {
+    const context = React.useContext(OrderContext);
+    if (!context) throw new Error("Post Provider is missing");
+    return context;
+};
+
+export const OrderProvider = ({ children }) => {
+
+    const initialstate = {
+        orders: null,
+        currentOrder: null,
+        toasts: null,
+        isAuthenticated: null,
+    }
+    const [state, dispatch] = React.useReducer(OrderReducer, initialstate);
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'x-auth-token': getCookie("token"),
+        }
+    }
+
+    const getOrders = async () => {
+        try {
+            const res = await axios.get(ORDERS_FETCH_URL, config);
+            dispatch({
+                type: ActionTypes.GET_ORDERS_SUCCESS,
+                payload: res.data
+            })
+        } catch (err) {
+            console.log(err.response.data);
+            dispatch({
+                type: ActionTypes.USER_FAIL,
+                payload: err.response.data,
+            })
+        }
+    }
+
+    const createOrder = async (orderData) => {
+        try {
+            const res = await axios.post(ORDER_CREATE_URL, orderData, config);
+            dispatch({
+                type: ActionTypes.NEW_ORDER_SUCCESS,
+                payload: res.data
+            })
+        } catch (err) {
+            console.log(err.response.data);
+            dispatch({
+                type: ActionTypes.ORDER_FAIL,
+                payload: err.response.data,
+            })
+        }
+    }
+
+    const clearErrors = async () => {
+        dispatch({
+            type: ActionTypes.CLEAR_ERRORS,
+        })
+    }
+
+
+
+    return (
+        <OrderContext.Provider value={{
+            orders: state.orders,
+            currentOrder: state.currentOrder,
+            toasts: state.toasts,
+            isAuthenticated: state.isAuthenticated,
+            getOrders,
+            createOrder,
+            clearErrors
+        }}>
+            {children}
+        </OrderContext.Provider>
+
+    )
+}
