@@ -35,10 +35,18 @@ export function DashboardNavbar() {
   const [layout, page] = pathname.split("/").filter((el) => el !== "");
   const { currentUser, getProfile, logoutUser } = useUsers();
   const navigate = useNavigate();
+  const [profile, setProfile] = React.useState({})
+
 
   React.useEffect(() => {
-    getProfile();
-  }, [])
+    if (!currentUser) {
+      getProfile();
+    }
+  }, [currentUser])
+
+  React.useEffect(() => {
+    setProfile(currentUser)
+  }, [currentUser])
 
   const handleLogout = () => {
     logoutUser();
@@ -181,11 +189,11 @@ export function DashboardNavbar() {
             </MenuList>
           </Menu>
           {
-            currentUser ? (
+            profile ? (
               <Menu>
                 <MenuHandler>
                   <Avatar
-                    src={currentUser.pic}
+                    src={profile.pic}
                     alt="item-1"
                     size="sm"
                     variant="circular"

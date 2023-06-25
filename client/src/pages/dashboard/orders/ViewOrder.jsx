@@ -26,7 +26,8 @@ export function ViewOrder({ order }) {
             setUsers(usersById)
         }
     }, [usersById, order.id_user])
-
+    console.log(usersById?._id)
+    console.log(order.id_user)
     return (
         <tr key={order.id_order}>
             <td className="py-3 px-5 border-b border-blue-gray-50">

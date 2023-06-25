@@ -4,17 +4,13 @@ const colors = require('colors');
 
 
 exports.createCart = async (req, res, next) => {
-
-    const { productId, price } = req.body;
-    console.log(req.body)
-    const { userId } = req.user.id
-    const cartExist = await Cart.findOne({ productId, userId });
-
-    if (cartExist) {
-        return res.status(400).json([{ message: 'Cart already exists', type: 'error' }]);
-    }
-
     try {
+        const { productId, price } = req.body;
+        const cartExist = await Cart.findOne({ productId: req.body.productId, userId: req.user.id });
+        if (cartExist) {
+            return res.status(400).json([{ message: 'Cart already exists', type: 'error' }]);
+        }
+
         const newCart = new Cart({
             userId: req.user.id,
             productId,

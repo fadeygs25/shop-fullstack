@@ -23,10 +23,17 @@ import { useUsers } from "@/store/context/UserContext";
 export function Navbar({ brandName, routes, routesAdmin, action }) {
   const { currentUser, getProfile, logoutUser } = useUsers();
   const navigate = useNavigate();
+  const [profile, setProfile] = React.useState({})
 
   React.useEffect(() => {
-    getProfile();
-  }, [])
+    if (!currentUser) {
+      getProfile();
+    }
+  }, [currentUser])
+
+  React.useEffect(() => {
+    setProfile(currentUser)
+  }, [currentUser])
 
   const handleLogout = () => {
     logoutUser();
@@ -64,7 +71,7 @@ export function Navbar({ brandName, routes, routesAdmin, action }) {
 
       {
         routesAdmin.map(({ role, pages }) =>
-          currentUser.role === "admin" &&
+          profile?.role === "admin" &&
           pages.map(({ name, path, icon }) =>
           (
             <Typography
@@ -90,7 +97,7 @@ export function Navbar({ brandName, routes, routesAdmin, action }) {
   const profileList = (
     <>
       {
-        currentUser ? (
+        profile ? (
 
           <Menu>
             <MenuHandler>
@@ -100,12 +107,12 @@ export function Navbar({ brandName, routes, routesAdmin, action }) {
                 className="flex items-center gap-3 text-base font-normal capitalize tracking-normal"
               >
                 <Avatar
-                  src={currentUser.pic}
+                  src={profile.pic}
                   alt="item-1"
                   size="sm"
                   variant="circular"
                 />
-                {currentUser.username}
+                {profile.username}
               </Button>
 
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { Cog6ToothIcon } from "@heroicons/react/24/solid";
 import { IconButton } from "@material-tailwind/react";
 import {
@@ -16,7 +16,23 @@ export function Dashboard() {
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavType } = controller;
 
+  const { currentUser, getProfile, logoutUser } = useUsers();
+  const navigate = useNavigate();
+  const [profile, setProfile] = React.useState({})
 
+  React.useEffect(() => {
+    if (!currentUser) {
+      getProfile();
+    }
+  }, [currentUser])
+
+  React.useEffect(() => {
+    setProfile(currentUser)
+  }, [currentUser])
+
+  if (profile?.role !== "admin") {
+    navigate('/');
+  }
 
   return (
     <div className="min-h-screen bg-blue-gray-50/50">

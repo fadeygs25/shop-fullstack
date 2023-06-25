@@ -7,27 +7,27 @@ const colors = require('colors');
 
 
 exports.createOrder = async (req, res, next) => {
+    try {
+        const { id_user, email, number,
+            address, method, total_products, total_price,
+            placed_on, payment_status, is_paid
+        } = req.body;
+        const query =
+            'INSERT INTO  orders ( id_user ,  email ,  number ,  address ,  method , total_products  , total_price  , placed_on  , payment_status , is_paid ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *'
+        const values = [
+            id_user, email, number,
+            address, method, total_products, total_price,
+            placed_on, payment_status, is_paid
+        ];
 
-    const { id_user, email, number,
-        address, method, total_products, total_price,
-        placed_on, payment_status, is_paid
-    } = req.body;
-    const q =
-        'INSERT INTO  orders ( id_user ,  email ,  number ,  address ,  method , total_products  , total_price  , placed_on  , payment_status , is_paid ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)'
-    const values = [
-        id_user, email, number,
-        address, method, total_products, total_price,
-        placed_on, payment_status, is_paid
-    ];
+        const result = await db.query(query, values);
 
-    db.query(q, values, (err, data) => {
-        if (err) {
-            console.error(`ERROR: ${err.message}`.bgRed.underline.bold);
-            res.status(500).send('Server Error');
-        } else {
-            res.json(data);
-        }
-    });
+        const insertedData = result.rows[0];
+        res.json(insertedData);
+    } catch (err) {
+        console.error(`ERROR: ${err.message}`.bgRed.underline.bold);
+        res.status(500).send('Server Error');
+    }
 }
 
 
@@ -105,15 +105,18 @@ exports.payOrder = async (req, res, next) => {
 
 
 exports.findOrder = async (req, res, next) => {
-
-    const q =
-        "SELECT * FROM orders where idorder = ? ";
-
-    db.query(q, [req.params.id], (err, data) => {
-        if (err) return res.status(500).json(err);
-
-        return res.status(200).json(data[0]);
-    });
+    try {
+        const idOrder = [req.params.id];
+        // const { idOrder } = req.params.id;
+        const query = 'SELECT * FROM orders WHERE  id_order = ANY($1::int[]) ';
+        const values = [idOrder];
+        const result = await db.query(query, values);
+        const selectData = result.rows[0];
+        res.json(selectData);
+    } catch (err) {
+        console.error(`ERROR: ${err.message}`.bgRed.underline.bold);
+        res.status(500).send('Server Error');
+    }
 
 }
 

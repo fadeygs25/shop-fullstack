@@ -47,7 +47,7 @@ export function AddProduct() {
     image: []
   });
 
-  //handlde images
+  //handle images
   const handleImage = (e) => {
     const file = e.target.files[0];
     setFileToBase(file);

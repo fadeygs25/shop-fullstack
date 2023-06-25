@@ -18,7 +18,7 @@ import {
 import {
   Home, Profile, Tables, Notifications,
   ViewProducts, ViewCategories, ViewUsers,
-  ViewOrders, ViewComments, ViewComment
+  ViewOrders, ViewComments, ViewComment, ViewStatistical
 } from "@/pages/dashboard";
 import {
   SignIn, SignUp, ProductLists,
@@ -69,7 +69,7 @@ export const routes = [
         icon: <ChartBarIcon {...icon} />,
         name: "statistical",
         path: "/statistical",
-        element: <Home />,
+        element: <ViewStatistical />,
       },
       {
         icon: <ShoppingCartIcon {...icon} />,
@@ -158,7 +158,7 @@ export const routes = [
       {
         icon: <ClipboardDocumentCheckIcon {...icon} />,
         name: "Paypal",
-        path: "/paypal",
+        path: "/paypal/:id",
         element: <PayPal />,
       },
     ],

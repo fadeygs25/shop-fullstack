@@ -14,6 +14,7 @@ export const USER_LOGIN_URL = USER_URL + '/signin';
 export const USER_REGISTER_URL = USER_URL + '/signup';
 export const USER_LOGOUT_URL = USER_URL + '/logout';
 export const USER_DELETE_URL = USER_URL + '/delete/';
+export const USER_UPDATE_URL = USER_URL + '/update/';
 
 
 export const PRODUCTS_URL = BASE_URL + '/api/product';
@@ -55,3 +56,4 @@ export const ORDER_CREATE_URL = ORDERS_URL + '/create';
 export const ORDER_NEW_FOR_CURRENT_USER_URL = ORDERS_URL + '/newOrderForCurrentUser';
 export const ORDER_PAY_URL = ORDERS_URL + '/pay';
 export const ORDER_TRACK_URL = ORDERS_URL + '/track/';
+export const ORDER_BY_ID_URL = ORDERS_URL + '/find/';

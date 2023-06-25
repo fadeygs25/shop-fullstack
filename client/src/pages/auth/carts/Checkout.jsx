@@ -23,9 +23,8 @@ import moment from 'moment';
 export function Checkout() {
     const { getCartByUser, cartsByUser, toasts, clearErrors, carts, clearCurrentBlog } = useCarts();
     const { currentUser, getProfile } = useUsers();
-    const { createOrder } = useOrders();
+    const { createOrder, currentOrder } = useOrders();
     const navigate = useNavigate();
-
 
 
     React.useEffect(() => {
@@ -55,14 +54,13 @@ export function Checkout() {
 
     const handleSave = () => {
         const { id_user, email, number, address, method, total_products, total_price, placed_on, payment_status } = newOrder
-        console.log(newOrder)
         if (!id_user || !email || !number || !address || !method || !total_products || !total_price || !placed_on || !payment_status) {
             toast('Please fill all the fields', { type: 'error' })
             return
         }
         createOrder(newOrder);
         if (method === "PayPal") {
-            navigate('/auth/paypal');
+            navigate(`/auth/paypal/${currentOrder?.id_order}`);
         }
     }
 

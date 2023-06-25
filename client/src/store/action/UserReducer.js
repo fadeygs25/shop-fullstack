@@ -43,7 +43,7 @@ export default (state, action) => {
                 token: null,
             }
         case ActionTypes.LOGIN_SUCCESS:
-            Cookies.set('token', action.payload, options);
+            Cookies.set('token', action.payload, { expires: new Date(Date.now() + 1 * 60 * 60 * 1000) });
             window.location.reload();
             return {
                 ...state,

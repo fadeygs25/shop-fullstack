@@ -9,7 +9,8 @@ import {
     USER_BY_ID_URL,
     USER_REGISTER_URL,
     USER_DELETE_URL,
-    USER_LOGIN_URL
+    USER_LOGIN_URL,
+    USER_UPDATE_URL
 } from '@/api/urls';
 import { getCookie } from 'react-use-cookie';
 
@@ -25,8 +26,8 @@ export const UserProvider = ({ children }) => {
 
     const initialstate = {
         token: getCookie("token"),
-        users: [],
-        currentUser: "",
+        users: null,
+        currentUser: null,
         usersById: null,
         toasts: null,
         isAuthenticated: null,
@@ -66,6 +67,22 @@ export const UserProvider = ({ children }) => {
             console.log(err.response.data);
             dispatch({
                 type: ActionTypes.LOGIN_FAIL,
+                payload: err.response.data,
+            })
+        }
+    }
+
+    const updateUser = async (userData) => {
+        try {
+            const res = await axios.put(USER_UPDATE_URL + userData._id, userData, config);
+            dispatch({
+                type: ActionTypes.SET_CURRENT_USER,
+                payload: res.data
+            })
+        } catch (err) {
+            console.log(err.response.data);
+            dispatch({
+                type: ActionTypes.USER_FAIL,
                 payload: err.response.data,
             })
         }
@@ -112,6 +129,7 @@ export const UserProvider = ({ children }) => {
                 payload: res.data
             })
         } catch (err) {
+            console.log(err.response.data);
             dispatch({
                 type: ActionTypes.AUTH_ERROR,
                 payload: err.response.data,
@@ -166,6 +184,7 @@ export const UserProvider = ({ children }) => {
             getUserById,
             registerUser,
             loginUser,
+            updateUser,
             deleteUser
         }}>
             {children}

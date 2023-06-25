@@ -3,7 +3,8 @@ import axios from 'axios';
 import * as ActionTypes from '../ContextActions';
 import {
     ORDERS_FETCH_URL,
-    ORDER_CREATE_URL
+    ORDER_CREATE_URL,
+    ORDER_BY_ID_URL
 } from '@/api/urls';
 import { getCookie } from 'react-use-cookie';
 import OrderReducer from '../action/OrderReducer';
@@ -48,6 +49,22 @@ export const OrderProvider = ({ children }) => {
         }
     }
 
+    const getOrderById = async (orderId) => {
+        try {
+            const res = await axios.get(ORDER_BY_ID_URL + orderId);
+            dispatch({
+                type: ActionTypes.GET_ORDER_BY_ID,
+                payload: res.data
+            })
+        } catch (err) {
+            console.log(err.response.data);
+            dispatch({
+                type: ActionTypes.ORDER_FAIL,
+                payload: err.response.data,
+            })
+        }
+    }
+
     const createOrder = async (orderData) => {
         try {
             const res = await axios.post(ORDER_CREATE_URL, orderData, config);
@@ -80,6 +97,7 @@ export const OrderProvider = ({ children }) => {
             isAuthenticated: state.isAuthenticated,
             getOrders,
             createOrder,
+            getOrderById,
             clearErrors
         }}>
             {children}

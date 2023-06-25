@@ -133,20 +133,22 @@ exports.forgotPass = async (req, res, next) => {
 }
 
 exports.updateUser = async (req, res, next) => {
-    const user = await User.findByIdAndUpdate(req.params.id);
-    //if user exists
-    const form = req.body.form;
+
     try {
+        const user = await User.findByIdAndUpdate(req.params.id);
+        //if user exists
+        const form = req.body;
         if (user) {
             //if you want to update username or email
             user.username = form.username || user.username;
+            user.fullName = form.fullName || user.fullName;
             user.email = form.email || user.email;
             user.number = form.number || user.number;
             user.address = form.address || user.address;
             user.role = form.role || user.role;
 
-            if (req.body.image !== '') {
-                const ImgId = user.picId;
+            if (req.body.image) {
+                const ImgId = user.pic_id;
                 if (ImgId) {
                     await cloudinary.uploader.destroy(ImgId);
                 }
@@ -158,18 +160,11 @@ exports.updateUser = async (req, res, next) => {
                 });
 
                 user.pic = newImage.secure_url;
-                user.picId = newImage.public_id
+                user.pic_id = newImage.public_id
             }
 
             const updatedUser = await user.save();
-            res.send({
-                _id: updatedUser._id,
-                username: updatedUser.username,
-                email: updatedUser.email,
-                number: updatedUser.number,
-                address: updatedUser.address,
-            });
-
+            res.json(updatedUser);
         } else {
             res.status(401).send({ message: 'User not Found!' });
         }

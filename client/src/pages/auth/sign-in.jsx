@@ -22,7 +22,6 @@ export function SignIn() {
     password: '',
   })
 
-
   React.useEffect(() => {
     if (isAuthenticated) navigate('/auth/home')
 

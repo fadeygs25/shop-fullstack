@@ -4,25 +4,25 @@ import {
     CardHeader,
     CardBody,
     Typography,
-    Avatar,
-    Chip,
-    Tooltip,
-    Progress,
 } from "@material-tailwind/react";
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
-import { authorsTableData, projectsTableData } from "@/data";
-import { useCarts } from "@/store/context/CartContext";
-import { useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify'
-import { CartsCheckout } from "@/widgets/carts";
-import { useUsers } from "@/store/context/UserContext";
-import { useOrders } from "@/store/context/OrderContext";
-import moment from 'moment';
 import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
-
+import { useParams, useNavigate } from 'react-router-dom';
+import { useOrders } from "@/store/context/OrderContext";
+import MessageBox from "@/widgets/cards/MessageBox";
 
 export function PayPal() {
+    const { id } = useParams();
+    const [singleOrder, setSingleOrder] = React.useState(null);
+    const { currentOrder, getOrderById } = useOrders();
 
+    React.useEffect(() => {
+        getOrderById(id);
+    }, [id]);
+
+    React.useEffect(() => {
+        setSingleOrder(currentOrder);
+    }, [currentOrder]);
+    console.log(singleOrder)
     return (
         <>
             <img
@@ -49,11 +49,23 @@ export function PayPal() {
                                                         <span className="text-gray-600">Total</span>
                                                     </div>
                                                     <div className="pl-3">
-                                                        $10
+                                                        ${singleOrder?.total_price}
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div className="mb-6 pb-6 border-b border-gray-200 md:border-none text-gray-800 text-xl">
+                                                <div className="w-full flex items-center">
+                                                    {singleOrder?.is_paid == false ? (
+                                                        <MessageBox className="border-2 border-rose-600" variant="danger">Not Paid</MessageBox>
+                                                    ) : (
+                                                        <MessageBox variant="success">
+                                                            Paid at {singleOrder?.paid_at}
+                                                        </MessageBox>
+                                                    )}
+                                                </div>
+                                            </div>
                                         </div>
+
                                         <div className="px-3 md:w-5/12">
                                             <div className="w-full mx-auto rounded-lg bg-white  text-gray-800 font-light mb-6">
                                                 <div>

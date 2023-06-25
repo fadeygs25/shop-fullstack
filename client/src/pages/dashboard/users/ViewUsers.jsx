@@ -18,9 +18,15 @@ import { toast } from 'react-toastify';
 export function ViewUsers() {
     const [controller, dispatch] = useMaterialTailwindController();
     const { users, getUsers, toasts, clearErrors } = useUsers();
+    const [viewUsers, setViewUsers] = React.useState([]);
+
     React.useEffect(() => {
         getUsers()
     }, [])
+
+    React.useEffect(() => {
+        setViewUsers(users)
+    }, [users])
 
 
     return (
@@ -60,7 +66,7 @@ export function ViewUsers() {
                         </thead>
                         <tbody>
                             {
-                                users.map((user) => (
+                                viewUsers?.map((user) => (
                                     <ViewUser key={user.id} user={user} />
                                 ))
                             }

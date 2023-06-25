@@ -33,6 +33,9 @@ export function reducer(state, action) {
     case "OPEN_ADD_CATEGORY": {
       return { ...state, openAddCategory: action.value };
     }
+    case "OPEN_EDIT_USER": {
+      return { ...state, openEditUser: action.value };
+    }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
@@ -50,6 +53,7 @@ export function MaterialTailwindControllerProvider({ children }) {
     openAddProduct: false,
     openEditProduct: false,
     openAddCategory: false,
+    openEditUser: false,
   };
 
   const [controller, dispatch] = React.useReducer(reducer, initialState);
@@ -101,3 +105,5 @@ export const setOpenEditProduct = (dispatch, value) =>
   dispatch({ type: "OPEN_EDIT_PRODUCT", value });
 export const setOpenAddCategory = (dispatch, value) =>
   dispatch({ type: "OPEN_ADD_CATEGORY", value });
+export const setOpenEditUser = (dispatch, value) =>
+  dispatch({ type: "OPEN_EDIT_USER", value });

@@ -39,7 +39,7 @@ export function Auth() {
       pages: [
         {
           name: "dashboard",
-          path: "/dashboard/home",
+          path: "/dashboard/statistical",
           icon: ChartPieIcon,
         },
         // {
@@ -68,7 +68,7 @@ export function Auth() {
             ))
         )}
       </Routes>
-      <div className="container  bottom-8 left-2/4 z-10 mx-auto -translate-y-2/4 text-white">
+      <div className="container  bottom-16 left-2/4 z-10 mx-auto -translate-y-2/4 text-white">
         <Footer />
       </div>
     </div>
