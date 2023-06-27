@@ -45,16 +45,19 @@ exports.displayOrder = async (req, res, next) => {
 }
 
 exports.countOrders = async (req, res, next) => {
-    const q =
-        "SELECT COUNT(*) AS count FROM orders";
+    try {
 
-    db.query(q, (err, data) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(data);
-        }
-    });
+        const query =
+            "SELECT COUNT(*) AS count FROM orders";
+        const result = await db.query(query);
+
+        const insertedData = result.rows[0];
+        res.json(insertedData);
+        console.log(insertedData)
+    } catch (err) {
+        console.error(`ERROR: ${err.message}`.bgRed.underline.bold);
+        res.status(500).send('Server Error');
+    }
 
 }
 

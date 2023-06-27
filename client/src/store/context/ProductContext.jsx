@@ -7,7 +7,8 @@ import {
     PRODUCTS_FETCH_URL,
     PRODUCT_CREATE_URL,
     PRODUCT_DELETE_URL,
-    PRODUCT_BY_ID_URL
+    PRODUCT_BY_ID_URL,
+    PRODUCT_COUNT_URL
 } from '@/api/urls';
 
 const ProductContext = React.createContext();
@@ -23,6 +24,7 @@ export const ProductProvider = ({ children }) => {
     const initialstate = {
         products: [],
         productsById: null,
+        countProducts: null,
         currentProduct: null,
         toasts: null,
         blogCreated: false
@@ -42,6 +44,22 @@ export const ProductProvider = ({ children }) => {
             const res = await axios.get(PRODUCTS_FETCH_URL);
             dispatch({
                 type: ActionTypes.GET_PRODUCTS_SUCCESS,
+                payload: res.data
+            })
+        } catch (err) {
+            console.log(err.response.data);
+            dispatch({
+                type: ActionTypes.PRODUCT_FAIL,
+                payload: err.response.data,
+            })
+        }
+    }
+
+    const getCountProducts = async () => {
+        try {
+            const res = await axios.get(PRODUCT_COUNT_URL, config);
+            dispatch({
+                type: ActionTypes.GET_PRODUCTS_COUNT,
                 payload: res.data
             })
         } catch (err) {
@@ -111,11 +129,13 @@ export const ProductProvider = ({ children }) => {
     return (
         <ProductContext.Provider value={{
             products: state.products,
+            countProducts: state.countProducts,
             productsById: state.productsById,
             currentProduct: state.currentProduct,
             toasts: state.toasts,
             productCreated: state.productCreated,
             getProducts,
+            getCountProducts,
             getProductById,
             createProduct,
             deleteProduct,

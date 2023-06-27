@@ -223,7 +223,7 @@ exports.countUsers = async (req, res, next) => {
     try {
 
         const countUsers = await User.countDocuments();
-        res.status(200).json({ count: countUsers });
+        res.json(countUsers)
     } catch (err) {
         console.error(`ERROR: ${err.message}`.bgRed.underline.bold);
         res.status(500).send('Server Error');

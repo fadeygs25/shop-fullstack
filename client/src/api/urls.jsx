@@ -15,6 +15,7 @@ export const USER_REGISTER_URL = USER_URL + '/signup';
 export const USER_LOGOUT_URL = USER_URL + '/logout';
 export const USER_DELETE_URL = USER_URL + '/delete/';
 export const USER_UPDATE_URL = USER_URL + '/update/';
+export const USER_COUNT_URL = USER_URL + '/countUsers';
 
 
 export const PRODUCTS_URL = BASE_URL + '/api/product';
@@ -22,6 +23,7 @@ export const PRODUCTS_FETCH_URL = PRODUCTS_URL + '/all';
 export const PRODUCT_CREATE_URL = PRODUCTS_URL + '/create';
 export const PRODUCT_DELETE_URL = PRODUCTS_URL + '/delete/';
 export const PRODUCT_BY_ID_URL = PRODUCTS_URL + '/find/';
+export const PRODUCT_COUNT_URL = PRODUCTS_URL + '/countProducts';
 
 
 export const CATEGORIES_URL = BASE_URL + '/api/category';
@@ -37,6 +39,7 @@ export const RATING_CREATE_URL = RATINGS_URL + '/create';
 export const RATING_DELETE_URL = RATINGS_URL + '/delete/';
 export const RATING_BY_ID_URL = RATINGS_URL + '/find/';
 export const RATING_BY_PRODUCT_URL = RATINGS_URL + '/byProduct/';
+export const RATING_COUNT_URL = RATINGS_URL + '/countRatings';
 
 
 export const CARTS_URL = BASE_URL + '/api/cart';
@@ -57,3 +60,4 @@ export const ORDER_NEW_FOR_CURRENT_USER_URL = ORDERS_URL + '/newOrderForCurrentU
 export const ORDER_PAY_URL = ORDERS_URL + '/pay';
 export const ORDER_TRACK_URL = ORDERS_URL + '/track/';
 export const ORDER_BY_ID_URL = ORDERS_URL + '/find/';
+export const ORDER_COUNT_URL = ORDERS_URL + '/countOrders';

@@ -46,13 +46,9 @@ exports.displayProduct = async (req, res, next) => {
 }
 
 exports.countProducts = async (req, res, next) => {
-
-
     try {
         const countProducts = await Product.countDocuments();
-        res.status(200).json({ count: countProducts });
-
-
+        res.json(countProducts);
     } catch (err) {
         console.error(`ERROR: ${err.message}`.bgRed.underline.bold);
         res.status(500).send('Server Error');

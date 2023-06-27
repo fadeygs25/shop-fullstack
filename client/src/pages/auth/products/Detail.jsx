@@ -52,14 +52,11 @@ export function Detail() {
 
   const { productsById, getProductById } = useProducts();
 
-  const { categories, getCategories, categoriesById, getCategoryById } = useCategories();
+  const { categoriesById, getCategoryById } = useCategories();
 
-  const { createRating, ratings, getRatings, currentRating, getRatingByProduct, ratingsByProduct } = useRatings();
+  const { createRating, getRatingByProduct, ratingsByProduct } = useRatings();
 
-  const {
-    createCart, carts,
-    cartCreated,
-  } = useCarts();
+  const { createCart, toasts, clearErrors } = useCarts();
 
 
   const [myRatings, setMyRatings] = React.useState([]);
@@ -74,6 +71,18 @@ export function Detail() {
     productId: id,
     price: productsById?.price,
   }
+
+
+  React.useEffect(() => {
+    if (toasts) {
+      toasts.forEach(ele => {
+        toast(ele.message, {
+          type: ele.type
+        })
+      });
+      clearErrors()
+    }
+  }, [toasts, clearErrors])
 
 
   // product
@@ -201,33 +210,6 @@ export function Detail() {
                     ))
                   }
                 </ul>
-
-                {/* <table className="w-full min-w-[640px] table-auto">
-                  <thead>
-                    <tr>
-                      {["User", "Message"].map((el) => (
-                        <th
-                          key={el}
-                          className="border-b border-blue-gray-50 py-3 px-5 text-left"
-                        >
-                          <Typography
-                            variant="small"
-                            className="text-[11px] font-bold uppercase text-blue-gray-400"
-                          >
-                            {el}
-                          </Typography>
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody className="h-96 max-h-full">
-                    {
-                      myRatings.map((rating) => (
-                        <Ratings key={rating.id} rating={rating} />
-                      ))
-                    }
-                  </tbody>
-                </table> */}
 
               </CardBody>
               <div className="py-3 px-5 ">

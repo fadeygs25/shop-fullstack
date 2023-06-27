@@ -4,7 +4,8 @@ import * as ActionTypes from '../ContextActions';
 import {
     ORDERS_FETCH_URL,
     ORDER_CREATE_URL,
-    ORDER_BY_ID_URL
+    ORDER_BY_ID_URL,
+    ORDER_COUNT_URL
 } from '@/api/urls';
 import { getCookie } from 'react-use-cookie';
 import OrderReducer from '../action/OrderReducer';
@@ -22,6 +23,7 @@ export const OrderProvider = ({ children }) => {
     const initialstate = {
         orders: null,
         currentOrder: null,
+        countOrders: null,
         toasts: null,
         isAuthenticated: null,
     }
@@ -44,6 +46,22 @@ export const OrderProvider = ({ children }) => {
             console.log(err.response.data);
             dispatch({
                 type: ActionTypes.USER_FAIL,
+                payload: err.response.data,
+            })
+        }
+    }
+
+    const getCountOrders = async () => {
+        try {
+            const res = await axios.get(ORDER_COUNT_URL, config);
+            dispatch({
+                type: ActionTypes.GET_ORDERS_COUNT,
+                payload: res.data
+            })
+        } catch (err) {
+            console.log(err.response.data);
+            dispatch({
+                type: ActionTypes.ORDER_FAIL,
                 payload: err.response.data,
             })
         }
@@ -93,10 +111,12 @@ export const OrderProvider = ({ children }) => {
         <OrderContext.Provider value={{
             orders: state.orders,
             currentOrder: state.currentOrder,
+            countOrders: state.countOrders,
             toasts: state.toasts,
             isAuthenticated: state.isAuthenticated,
             getOrders,
             createOrder,
+            getCountOrders,
             getOrderById,
             clearErrors
         }}>

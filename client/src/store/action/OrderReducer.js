@@ -17,6 +17,11 @@ export default (state, action) => {
                 ...state,
                 orders: action.payload
             }
+        case ActionTypes.GET_ORDERS_COUNT:
+            return {
+                ...state,
+                countOrders: action.payload
+            }
         case ActionTypes.ORDER_FAIL:
             return {
                 ...state,

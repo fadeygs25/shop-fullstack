@@ -27,35 +27,104 @@ import {
     projectsTableData,
     ordersOverviewData,
 } from "@/data";
+import { useUsers } from "@/store/context/UserContext";
+import {
+    BanknotesIcon,
+    UserPlusIcon,
+    UserIcon,
+    ChartBarIcon,
+    ShoppingCartIcon,
+    BriefcaseIcon,
+    ChatBubbleBottomCenterIcon
+} from "@heroicons/react/24/solid";
+import { useOrders } from "@/store/context/OrderContext";
+import { useProducts } from "@/store/context/ProductContext";
+import { useRatings } from "@/store/context/RatingContext";
 
 export function ViewStatistical() {
+    const { countUsers, getCountUsers } = useUsers();
+    const { countOrders, getCountOrders } = useOrders();
+    const { countProducts, getCountProducts } = useProducts();
+    const { countRatings, getCountRatings } = useRatings();
+    const [users, setUsers] = React.useState(null)
+    const [orders, setOrders] = React.useState(null)
+    const [products, setProducts] = React.useState(null)
+    const [ratings, setRatings] = React.useState(null)
+
+    // users
+    React.useEffect(() => {
+        getCountUsers()
+    }, [])
+
+    React.useEffect(() => {
+        setUsers(countUsers)
+    }, [countUsers])
+
+
+    // orders
+    React.useEffect(() => {
+        getCountOrders()
+    }, [])
+
+    React.useEffect(() => {
+        setOrders(countOrders?.count)
+    }, [countOrders?.count])
+
+    // products
+    React.useEffect(() => {
+        getCountProducts()
+    }, [])
+
+    React.useEffect(() => {
+        setProducts(countProducts)
+    }, [countProducts])
+
+    // ratings
+    React.useEffect(() => {
+        getCountRatings()
+    }, [])
+
+    React.useEffect(() => {
+        setRatings(countRatings)
+    }, [countRatings])
+
+
+
+
     return (
         <div className="mt-12">
             <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
                 <StatisticsCard
-                
-                    footer={
-                        <Typography className="font-normal text-blue-gray-600">
-                        </Typography>
-                    }
+                    title="Today's Users"
+                    color="pink"
+                    value={users}
+                    icon={React.createElement(UserPlusIcon, {
+                        className: "w-6 h-6 text-white",
+                    })}
                 />
                 <StatisticsCard
-                    footer={
-                        <Typography className="font-normal text-blue-gray-600">
-                        </Typography>
-                    }
+                    title="Sales"
+                    color="blue"
+                    value={orders}
+                    icon={React.createElement(ShoppingCartIcon, {
+                        className: "w-6 h-6 text-white",
+                    })}
                 />
                 <StatisticsCard
-                    footer={
-                        <Typography className="font-normal text-blue-gray-600">
-                        </Typography>
-                    }
+                    title="Products"
+                    color="green"
+                    value={products}
+                    icon={React.createElement(BriefcaseIcon, {
+                        className: "w-6 h-6 text-white",
+                    })}
                 />
                 <StatisticsCard
-                    footer={
-                        <Typography className="font-normal text-blue-gray-600">
-                        </Typography>
-                    }
+                    title="Ratings"
+                    color="yellow"
+                    value={ratings}
+                    icon={React.createElement(ChatBubbleBottomCenterIcon, {
+                        className: "w-6 h-6 text-white",
+                    })}
                 />
             </div>
         </div>

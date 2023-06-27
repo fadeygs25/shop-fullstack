@@ -60,19 +60,13 @@ exports.productRating = async (req, res, next) => {
 }
 
 exports.countRatings = async (req, res, next) => {
-
-
     try {
         const countRatings = await Rating.countDocuments();
-        res.status(200).json({ count: countRatings });
-
-
-    } catch (error) {
-        console.log(error);
-        next(error);
-
+        res.json(countRatings);
+    } catch (err) {
+        console.error(`ERROR: ${err.message}`.bgRed.underline.bold);
+        res.status(500).send('Server Error');
     }
-
 }
 
 // delete product and product image in cloudinary

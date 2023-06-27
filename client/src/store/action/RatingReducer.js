@@ -19,6 +19,12 @@ export default (state, action) => {
                 ratings: action.payload
             }
 
+        case ActionTypes.GET_RATINGS_COUNT:
+            return {
+                ...state,
+                countRatings: action.payload
+            }
+
         case ActionTypes.GET_RATING_BY_PRODUCT:
             return {
                 ...state,

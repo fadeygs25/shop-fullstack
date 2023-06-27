@@ -8,7 +8,7 @@ exports.createCart = async (req, res, next) => {
         const { productId, price } = req.body;
         const cartExist = await Cart.findOne({ productId: req.body.productId, userId: req.user.id });
         if (cartExist) {
-            return res.status(400).json([{ message: 'Cart already exists', type: 'error' }]);
+            return res.status(400).json([{ message: 'roduct is available', type: 'error' }]);
         }
 
         const newCart = new Cart({
@@ -20,6 +20,7 @@ exports.createCart = async (req, res, next) => {
 
         await newCart.save();
         if (!newCart) return res.status(400).json([{ message: 'Cart not created', type: 'error' }]);
+        if (newCart) return res.status(400).json([{ message: 'Cart created', type: 'success' }]);
 
         res.send(newCart)
 

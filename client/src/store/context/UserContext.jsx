@@ -6,6 +6,7 @@ import {
     USER_FETCH_URL,
     USER_LOGOUT_URL,
     USERS_FETCH_URL,
+    USER_COUNT_URL,
     USER_BY_ID_URL,
     USER_REGISTER_URL,
     USER_DELETE_URL,
@@ -28,6 +29,7 @@ export const UserProvider = ({ children }) => {
         token: getCookie("token"),
         users: null,
         currentUser: null,
+        countUsers: null,
         usersById: null,
         toasts: null,
         isAuthenticated: null,
@@ -93,6 +95,22 @@ export const UserProvider = ({ children }) => {
             const res = await axios.get(USERS_FETCH_URL, config);
             dispatch({
                 type: ActionTypes.GET_USERS_SUCCESS,
+                payload: res.data
+            })
+        } catch (err) {
+            console.log(err.response.data);
+            dispatch({
+                type: ActionTypes.USER_FAIL,
+                payload: err.response.data,
+            })
+        }
+    }
+
+    const getCountUsers = async () => {
+        try {
+            const res = await axios.get(USER_COUNT_URL, config);
+            dispatch({
+                type: ActionTypes.GET_USERS_COUNT,
                 payload: res.data
             })
         } catch (err) {
@@ -174,11 +192,13 @@ export const UserProvider = ({ children }) => {
             token: state.token,
             users: state.users,
             currentUser: state.currentUser,
+            countUsers: state.countUsers,
             usersById: state.usersById,
             toasts: state.toasts,
             isAuthenticated: state.isAuthenticated,
             getProfile,
             getUsers,
+            getCountUsers,
             logoutUser,
             clearErrors,
             getUserById,

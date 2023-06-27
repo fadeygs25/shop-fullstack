@@ -17,6 +17,12 @@ export default (state, action) => {
                 ...state,
                 products: action.payload
             }
+        case ActionTypes.GET_PRODUCTS_COUNT:
+            return {
+                ...state,
+                countProducts: action.payload
+            }
+
         case ActionTypes.PRODUCT_FAIL:
             return {
                 ...state,

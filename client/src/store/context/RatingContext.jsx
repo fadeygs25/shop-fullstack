@@ -8,7 +8,8 @@ import {
     RATING_CREATE_URL,
     RATING_DELETE_URL,
     RATING_BY_ID_URL,
-    RATING_BY_PRODUCT_URL
+    RATING_BY_PRODUCT_URL,
+    RATING_COUNT_URL
 } from '@/api/urls';
 
 const RatingContext = React.createContext();
@@ -23,6 +24,7 @@ export const RatingProvider = ({ children }) => {
 
     const initialstate = {
         ratings: null,
+        countRatings: null,
         currentRating: null,
         ratingsByProduct: [],
         toasts: null,
@@ -43,6 +45,22 @@ export const RatingProvider = ({ children }) => {
             const res = await axios.get(RATINGS_FETCH_URL);
             dispatch({
                 type: ActionTypes.GET_RATINGS_SUCCESS,
+                payload: res.data
+            })
+        } catch (err) {
+            console.log(err.response.data);
+            dispatch({
+                type: ActionTypes.RATING_FAIL,
+                payload: err.response.data,
+            })
+        }
+    }
+
+    const getCountRatings = async () => {
+        try {
+            const res = await axios.get(RATING_COUNT_URL);
+            dispatch({
+                type: ActionTypes.GET_RATINGS_COUNT,
                 payload: res.data
             })
         } catch (err) {
@@ -140,11 +158,13 @@ export const RatingProvider = ({ children }) => {
     return (
         <RatingContext.Provider value={{
             ratings: state.ratings,
+            countRatings: state.countRatings,
             currentRating: state.currentRating,
             ratingsByProduct: state.ratingsByProduct,
             toasts: state.toasts,
             ratingCreated: state.ratingCreated,
             getRatings,
+            getCountRatings,
             getRatingById,
             getRatingByProduct,
             createRating,

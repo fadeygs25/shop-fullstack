@@ -54,6 +54,11 @@ export default (state, action) => {
                 ...state,
                 users: action.payload
             }
+        case ActionTypes.GET_USERS_COUNT:
+            return {
+                ...state,
+                countUsers: action.payload
+            }
         case ActionTypes.GET_USER_BY_ID:
             return {
                 ...state,
