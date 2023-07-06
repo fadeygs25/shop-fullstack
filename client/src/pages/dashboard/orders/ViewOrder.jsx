@@ -11,23 +11,30 @@ import {
     Button
 } from "@material-tailwind/react";
 import { useUsers } from "@/store/context/UserContext";
-
+import { useOrders } from '@/store/context/OrderContext';
 
 export function ViewOrder({ order }) {
     const { usersById, getUserById } = useUsers();
-    const [users, setUsers] = React.useState([]);
+    const { deleteOrder } = useOrders();
+    const [users, setUsers] = React.useState({});
 
     React.useEffect(() => {
         getUserById(order.id_user)
     }, [order.id_user])
 
     React.useEffect(() => {
-        if (usersById?._id === order.id_user) {
+        if (usersById?._id === order?.id_user) {
             setUsers(usersById)
         }
-    }, [usersById, order.id_user])
+    }, [usersById?._id, order?.id_user])
     console.log(usersById?._id)
-    console.log(order.id_user)
+    console.log(order?.id_user)
+    console.log(users)
+
+    const handleDelete = () => {
+        deleteOrder(order.id_order);
+    }
+
     return (
         <tr key={order.id_order}>
             <td className="py-3 px-5 border-b border-blue-gray-50">
@@ -115,11 +122,8 @@ export function ViewOrder({ order }) {
             <td className="py-3 px-5 border-b border-blue-gray-50">
                 <Typography
                     as="a"
-                    href="#"
                     className="text-xs font-semibold text-blue-gray-600"
-                    onClick={() => {
-                        deleteorder(order._id);
-                    }}
+                    onClick={handleDelete}
                 >
                     Delete
                 </Typography>

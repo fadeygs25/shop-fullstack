@@ -54,15 +54,25 @@ export default (state, action) => {
                 ...state,
                 users: action.payload
             }
+        case ActionTypes.GET_USER_BY_ID:
+            return {
+                ...state,
+                usersById: action.payload
+            }
         case ActionTypes.GET_USERS_COUNT:
             return {
                 ...state,
                 countUsers: action.payload
             }
-        case ActionTypes.GET_USER_BY_ID:
+        case ActionTypes.UPDATE_PROFILE:
             return {
                 ...state,
-                usersById: action.payload,
+                currentUser: action.payload,
+            }
+        case ActionTypes.UPDATE_USER:
+            return {
+                ...state,
+                users: state.users.map(user => user._id === action.payload._id ? action.payload : user)
             }
         case ActionTypes.USER_FAIL:
             return {

@@ -5,7 +5,8 @@ import {
     ORDERS_FETCH_URL,
     ORDER_CREATE_URL,
     ORDER_BY_ID_URL,
-    ORDER_COUNT_URL
+    ORDER_COUNT_URL,
+    ORDER_DELETE_URL
 } from '@/api/urls';
 import { getCookie } from 'react-use-cookie';
 import OrderReducer from '../action/OrderReducer';
@@ -99,6 +100,22 @@ export const OrderProvider = ({ children }) => {
         }
     }
 
+    const deleteOrder = async (orderId) => {
+        try {
+            const res = await axios.delete(ORDER_DELETE_URL + orderId, config);
+            dispatch({
+                type: ActionTypes.ORDER_DELETE,
+                payload: res.data
+            })
+        } catch (err) {
+            console.log(err.response.data);
+            dispatch({
+                type: ActionTypes.ORDER_FAIL,
+                payload: err.response.data,
+            })
+        }
+    }
+
     const clearErrors = async () => {
         dispatch({
             type: ActionTypes.CLEAR_ERRORS,
@@ -118,6 +135,7 @@ export const OrderProvider = ({ children }) => {
             createOrder,
             getCountOrders,
             getOrderById,
+            deleteOrder,
             clearErrors
         }}>
             {children}

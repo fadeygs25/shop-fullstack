@@ -12,10 +12,15 @@ import {
 } from "@material-tailwind/react";
 import { useUsers } from "@/store/context/UserContext";
 import { useNavigate } from 'react-router-dom';
-
+import {
+    useMaterialTailwindController,
+    setOpenEditUser
+} from "@/context";
+import { EditUser } from "@/widgets/side-user";
 
 export function ViewUser({ user }) {
-    const { deleteUser, toasts, clearErrors } = useUsers();
+    const [controller, dispatch] = useMaterialTailwindController();
+    const { deleteUser, toasts, clearErrors, getUserById } = useUsers();
 
     const navigate = useNavigate();
 
@@ -25,67 +30,71 @@ export function ViewUser({ user }) {
     }
 
     return (
-        <tr key={user._id}>
-            <td className="py-3 px-5 border-b border-blue-gray-50">
-                <div className="flex items-center gap-4">
-                    <Avatar src={user.pic} alt={user.name} size="sm" />
-                    <div>
-                        <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-semibold"
-                        >
-                            {user.username}
-                        </Typography>
+        <>
+            <EditUser />
+            <tr key={user._id}>
+                <td className="py-3 px-5 border-b border-blue-gray-50">
+                    <div className="flex items-center gap-4">
+                        <Avatar src={user.pic} alt={user.name} size="sm" />
+                        <div>
+                            <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-semibold"
+                            >
+                                {user.username}
+                            </Typography>
+                        </div>
                     </div>
-                </div>
-            </td>
-            <td className="py-3 px-5 border-b border-blue-gray-50">
-                <Typography className="text-xs font-semibold text-blue-gray-600">
-                    {user.fullName}
-                </Typography>
-            </td>
-            <td className="py-3 px-5 border-b border-blue-gray-50">
-                <Typography className="text-xs font-semibold text-blue-gray-600">
-                    {user.email}
-                </Typography>
-            </td>
-            <td className="py-3 px-5 border-b border-blue-gray-50">
-                <Typography className="text-xs font-semibold text-blue-gray-600">
-                    {user.number}
-                </Typography>
-            </td>
-            <td className="py-3 px-5 border-b border-blue-gray-50">
-                <Typography className="text-xs font-semibold text-blue-gray-600">
-                    {user.address}
-                </Typography>
-            </td>
-            <td className="py-3 px-5 border-b border-blue-gray-50">
-                <Typography className="text-xs font-semibold text-blue-gray-600">
-                    {user.role}
-                </Typography>
-            </td>
-            <td className="py-3 px-5 border-b border-blue-gray-50">
-                <Typography
-                    as="a"
-                    href="#"
-                    className="text-xs font-semibold text-blue-gray-600"
-                >
-                    Edit
-                </Typography>
-            </td>
-            <td className="py-3 px-5 border-b border-blue-gray-50">
-                <Typography
-                    as="a"
-                    href="#"
-                    className="text-xs font-semibold text-blue-gray-600"
-                    onClick={handleDelete}
-                >
-                    Delete
-                </Typography>
-            </td>
-        </tr>
-
+                </td>
+                <td className="py-3 px-5 border-b border-blue-gray-50">
+                    <Typography className="text-xs font-semibold text-blue-gray-600">
+                        {user.fullName}
+                    </Typography>
+                </td>
+                <td className="py-3 px-5 border-b border-blue-gray-50">
+                    <Typography className="text-xs font-semibold text-blue-gray-600">
+                        {user.email}
+                    </Typography>
+                </td>
+                <td className="py-3 px-5 border-b border-blue-gray-50">
+                    <Typography className="text-xs font-semibold text-blue-gray-600">
+                        {user.number}
+                    </Typography>
+                </td>
+                <td className="py-3 px-5 border-b border-blue-gray-50">
+                    <Typography className="text-xs font-semibold text-blue-gray-600">
+                        {user.address}
+                    </Typography>
+                </td>
+                <td className="py-3 px-5 border-b border-blue-gray-50">
+                    <Typography className="text-xs font-semibold text-blue-gray-600">
+                        {user.role}
+                    </Typography>
+                </td>
+                <td className="py-3 px-5 border-b border-blue-gray-50">
+                    <Typography
+                        onClick={() => {
+                            setOpenEditUser(dispatch, true);
+                            getUserById(user?._id)
+                        }}
+                        className="text-xs font-semibold text-blue-gray-600"
+                    >
+                        Edit
+                    </Typography>
+                </td>
+                <td className="py-3 px-5 border-b border-blue-gray-50">
+                    <Typography
+                        as="a"
+                        href="#"
+                        className="text-xs font-semibold text-blue-gray-600"
+                        onClick={handleDelete}
+                    >
+                        Delete
+                    </Typography>
+                </td>
+            </tr>
+        </>
     );
 }
 

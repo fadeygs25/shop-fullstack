@@ -26,7 +26,6 @@ export default (state, action) => {
         case ActionTypes.UPDATE_CATEGORY:
             return {
                 ...state,
-                categoriesById: action.payload,
                 categories: state.categories.map(category => category._id === action.payload._id ? action.payload : category)
             }
 

@@ -36,7 +36,7 @@ export default (state, action) => {
         case ActionTypes.ORDER_DELETE:
             return {
                 ...state,
-                orders: state.orders.filter(order => order._id !== action.payload.orderId),
+                orders: state.orders.filter(order => order.id_order !== action.payload.orderId),
                 toasts: action.payload.toasts
             }
         case ActionTypes.GET_ORDER_BY_ID:

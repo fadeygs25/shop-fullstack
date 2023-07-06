@@ -17,16 +17,16 @@ import Rating from '@mui/material/Rating';
 export function Ratings({ rating }) {
   const { deleteCart } = useCarts();
   const { usersById, getUserById } = useUsers();
-  const [users, setUsers] = React.useState([]);
+  const [users, setUsers] = React.useState({});
   React.useEffect(() => {
     getUserById(rating.userId)
   }, [rating.userId])
 
   React.useEffect(() => {
-    if (usersById?._id === rating.userId) {
+    if (usersById?._id === rating?.userId) {
       setUsers(usersById)
     }
-  }, [usersById, rating.userId])
+  }, [usersById, rating?.userId])
 
 
 

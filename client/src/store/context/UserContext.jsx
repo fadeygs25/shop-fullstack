@@ -74,11 +74,27 @@ export const UserProvider = ({ children }) => {
         }
     }
 
+    const updateProfile = async (userData) => {
+        try {
+            const res = await axios.put(USER_UPDATE_URL + userData._id, userData, config);
+            dispatch({
+                type: ActionTypes.UPDATE_PROFILE,
+                payload: res.data
+            })
+        } catch (err) {
+            console.log(err.response.data);
+            dispatch({
+                type: ActionTypes.USER_FAIL,
+                payload: err.response.data,
+            })
+        }
+    }
+
     const updateUser = async (userData) => {
         try {
             const res = await axios.put(USER_UPDATE_URL + userData._id, userData, config);
             dispatch({
-                type: ActionTypes.SET_CURRENT_USER,
+                type: ActionTypes.UPDATE_USER,
                 payload: res.data
             })
         } catch (err) {
@@ -204,6 +220,7 @@ export const UserProvider = ({ children }) => {
             getUserById,
             registerUser,
             loginUser,
+            updateProfile,
             updateUser,
             deleteUser
         }}>

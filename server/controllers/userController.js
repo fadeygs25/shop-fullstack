@@ -138,6 +138,7 @@ exports.updateUser = async (req, res, next) => {
         const user = await User.findByIdAndUpdate(req.params.id);
         //if user exists
         const form = req.body;
+        console.log(req.body)
         if (user) {
             //if you want to update username or email
             user.username = form.username || user.username;
@@ -148,7 +149,7 @@ exports.updateUser = async (req, res, next) => {
             user.role = form.role || user.role;
 
             if (req.body.image) {
-                const ImgId = user.pic_id;
+                const ImgId = user.picId;
                 if (ImgId) {
                     await cloudinary.uploader.destroy(ImgId);
                 }
@@ -160,7 +161,7 @@ exports.updateUser = async (req, res, next) => {
                 });
 
                 user.pic = newImage.secure_url;
-                user.pic_id = newImage.public_id
+                user.picId = newImage.public_id
             }
 
             const updatedUser = await user.save();

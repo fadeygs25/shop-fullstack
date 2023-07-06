@@ -30,19 +30,13 @@ export function EditUser() {
   const [controller, dispatch] = useMaterialTailwindController();
   const { openEditUser } =
     controller;
-  const { currentUser, getProfile, logoutUser, updateUser } = useUsers();
+  const { usersById, updateUser } = useUsers();
   const [profile, setProfile] = React.useState({});
 
-  //  user
   React.useEffect(() => {
-    if (!currentUser) {
-      getProfile();
-    }
-  }, [currentUser, getProfile])
-
-  React.useEffect(() => {
-    setProfile(currentUser)
-  }, [currentUser])
+    setProfile(usersById)
+  }, [usersById])
+  console.log(usersById)
   //handle images
   const handleImage = (e) => {
     const file = e.target.files[0];

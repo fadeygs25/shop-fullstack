@@ -21,6 +21,18 @@ exports.createCategory = async (req, res, next) => {
 
 }
 
+exports.updateCategory = async (req, res) => {
+    try {
+        const { nameCategory } = req.body;
+        const category = await Category.findOneAndUpdate({ _id: req.params.id }, { nameCategory }, { new: true });
+        res.json(category);
+    } catch (err) {
+        console.error(`ERROR: ${err.message}`.bgRed.underline.bold);
+        res.status(500).send('Server Error');
+    }
+}
+
+
 //get all caregories
 exports.getCategories = async (req, res, next) => {
 

@@ -45,11 +45,7 @@ export function ViewComment() {
                             </tr>
                         </thead>
                         <tbody>
-                            {
-                                users.map((user) => (
-                                    <ViewUser key={user.id} user={user} />
-                                ))
-                            }
+                        
                         </tbody>
                     </table>
                 </CardBody>

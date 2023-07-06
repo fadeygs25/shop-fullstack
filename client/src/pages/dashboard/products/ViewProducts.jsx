@@ -12,28 +12,35 @@ import {
 } from "@material-tailwind/react";
 import { useProducts } from "@/store/context/ProductContext";
 import { useMaterialTailwindController, setOpenAddProduct } from "@/context";
-import { AddProduct, EditProduct } from "@/widgets/side-product";
+import { AddProduct } from "@/widgets/side-product";
 import ViewProduct from "./ViewProduct";
 import { toast } from 'react-toastify';
+import { EditProduct } from "@/widgets/side-product";
 
 
 export function ViewProducts() {
     const [controller, dispatch] = useMaterialTailwindController();
     const { products, toasts, getProducts, deleteProduct, clearErrors } = useProducts();
+    const [viewProducts, setViewProducts] = React.useState([]);
+
     React.useEffect(() => {
         getProducts()
     }, [])
 
-    // React.useEffect(() => {
+    React.useEffect(() => {
+        setViewProducts(products)
+    }, [products])
 
-    //     if (toasts) {
-    //         toasts.forEach(ele => {
-    //             toast(ele.message, { type: ele.type })
-    //         });
-    //         clearErrors()
+    React.useEffect(() => {
 
-    //     }
-    // }, [toasts, clearErrors])
+        if (toasts) {
+            toasts.forEach(ele => {
+                toast(ele.message, { type: ele.type })
+            });
+            clearErrors()
+
+        }
+    }, [toasts, clearErrors])
 
 
     return (
@@ -76,8 +83,8 @@ export function ViewProducts() {
                         </thead>
                         <tbody>
                             {
-                                products.map((product) => (
-                                    <ViewProduct key={product.id} product={product} />
+                                viewProducts?.map((product) => (
+                                    <ViewProduct key={product._id} product={product} />
                                 ))
                             }
                         </tbody>

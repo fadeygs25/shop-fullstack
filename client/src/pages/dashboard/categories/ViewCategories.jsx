@@ -10,27 +10,28 @@ import {
     Progress,
     Button
 } from "@material-tailwind/react";
-import { useMaterialTailwindController, setOpenAddCategory } from "@/context";
+import { useMaterialTailwindController, setOpenAddCategory, setOpenEditCategory } from "@/context";
 import { useCategories } from "@/store/context/CategoryContext";
-import { AddCategory } from "@/widgets/side-category";
+import { AddCategory, EditCategory } from "@/widgets/side-category";
 import { toast } from 'react-toastify';
 
 export function ViewCategories() {
     const [controller, dispatch] = useMaterialTailwindController();
     const { categories, getCategories, deleteCategory,
-        toasts, clearErrors,
+        toasts, clearErrors, getCategoryById
     } = useCategories();
 
     React.useEffect(() => {
         getCategories()
-
-
     }, [])
+
+
 
     return (
 
         <div className="mt-12 mb-8 flex flex-col gap-12">
             <AddCategory />
+            <EditCategory />
             <div className="px-6">
                 <Button variant="gradient"
                     onClick={() => setOpenAddCategory(dispatch, true)}
@@ -90,7 +91,10 @@ export function ViewCategories() {
                                             <td className={className}>
                                                 <Typography
                                                     as="a"
-                                                    href="#"
+                                                    onClick={() => {
+                                                        setOpenEditCategory(dispatch, true);
+                                                        getCategoryById(_id)
+                                                    }}
                                                     className="text-xs font-semibold text-blue-gray-600"
                                                 >
                                                     Edit

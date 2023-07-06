@@ -7,7 +7,8 @@ import {
     CATEGORIES_FETCH_URL,
     CATEGORY_CREATE_URL,
     CATEGORY_DELETE_URL,
-    CATEGORY_BY_ID_URL
+    CATEGORY_BY_ID_URL,
+    CATEGORY_UPDATE_URL
 } from '@/api/urls';
 
 const CategoryContext = React.createContext();
@@ -85,6 +86,22 @@ export const CategoryProvider = ({ children }) => {
         }
     }
 
+    const updateCategory = async (categoryData) => {
+        try {
+            const res = await axios.put(CATEGORY_UPDATE_URL + categoryData._id, categoryData, config);
+            dispatch({
+                type: ActionTypes.UPDATE_CATEGORY,
+                payload: res.data
+            })
+        } catch (err) {
+            console.log(err.response.data);
+            dispatch({
+                type: ActionTypes.CATEGORY_FAIL,
+                payload: err.response.data,
+            })
+        }
+    }
+
     const deleteCategory = async (categoryId) => {
         try {
             const res = await axios.delete(CATEGORY_DELETE_URL + categoryId, config);
@@ -117,6 +134,7 @@ export const CategoryProvider = ({ children }) => {
             getCategories,
             getCategoryById,
             createCategory,
+            updateCategory,
             deleteCategory,
             clearErrors
         }}>

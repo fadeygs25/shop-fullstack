@@ -27,9 +27,16 @@ import ProductList from "./ProductList";
 
 export function ProductLists() {
     const { products, getProducts } = useProducts();
+    const [viewProducts, setViewProducts] = React.useState([]);
+
     React.useEffect(() => {
         getProducts()
     }, [])
+
+    React.useEffect(() => {
+        setViewProducts(products)
+    }, [products])
+
 
     return (
         <>
@@ -53,8 +60,8 @@ export function ProductLists() {
                         </Typography>
                         <div className="mt-6 grid grid-cols-1 gap-12 md:grid-cols-2 xl:grid-cols-4">
                             {
-                                products.map((product) => (
-                                    <ProductList key={product.id} product={product} />
+                                viewProducts?.map((product) => (
+                                    <ProductList key={product._id} product={product} />
                                 ))
                             }
                         </div>

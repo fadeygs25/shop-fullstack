@@ -161,7 +161,7 @@ export function Detail() {
                   className="mx-0 mt-0 mb-4 h-64 xl:h-80"
                 >
                   <img
-                    src={productsById?.image}
+                    src={productsById?.pic}
                     className="h-full w-full object-cover"
                   />
                 </CardHeader>

@@ -8,7 +8,8 @@ import {
     PRODUCT_CREATE_URL,
     PRODUCT_DELETE_URL,
     PRODUCT_BY_ID_URL,
-    PRODUCT_COUNT_URL
+    PRODUCT_COUNT_URL,
+    PRODUCT_UPDATE_URL
 } from '@/api/urls';
 
 const ProductContext = React.createContext();
@@ -22,7 +23,7 @@ export const useProducts = () => {
 export const ProductProvider = ({ children }) => {
 
     const initialstate = {
-        products: [],
+        products: null,
         productsById: null,
         countProducts: null,
         currentProduct: null,
@@ -103,6 +104,22 @@ export const ProductProvider = ({ children }) => {
         }
     }
 
+    const updateProduct = async (productData) => {
+        try {
+            const res = await axios.put(PRODUCT_UPDATE_URL + productData._id, productData, config);
+            dispatch({
+                type: ActionTypes.UPDATE_PRODUCT,
+                payload: res.data
+            })
+        } catch (err) {
+            console.log(err.response.data);
+            dispatch({
+                type: ActionTypes.PRODUCT_FAIL,
+                payload: err.response.data,
+            })
+        }
+    }
+
     const deleteProduct = async (productId) => {
         try {
             const res = await axios.delete(PRODUCT_DELETE_URL + productId, config);
@@ -138,6 +155,7 @@ export const ProductProvider = ({ children }) => {
             getCountProducts,
             getProductById,
             createProduct,
+            updateProduct,
             deleteProduct,
             clearErrors
         }}>

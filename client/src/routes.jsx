@@ -83,12 +83,7 @@ export const routes = [
         path: "/view-comments",
         element: <ViewComments />,
       },
-      {
-        icon: <ExclamationCircleIcon {...icon} />,
-        name: "errors",
-        path: "/view-comment/:id",
-        element: <ViewComment />,
-      },
+
       {
         icon: <TagIcon {...icon} />,
         name: "categories",
@@ -106,6 +101,12 @@ export const routes = [
         name: "users",
         path: "/view-users",
         element: <ViewUsers />,
+      },
+      {
+        icon: <ExclamationCircleIcon {...icon} />,
+        name: "errors",
+        path: "/view-comment/:id",
+        element: <ViewComment />,
       },
     ],
   },

@@ -23,12 +23,12 @@ import { Link } from "react-router-dom";
 import { ProfileInfoCard, MessageCard } from "@/widgets/cards";
 import { platformSettingsData, conversationsData, projectsData } from "@/data";
 import { useUsers } from "@/store/context/UserContext";
-import { EditUser } from "@/widgets/side-user";
-import { useMaterialTailwindController, setOpenEditUser } from "@/context";
+import { useMaterialTailwindController, setOpenEditProfile } from "@/context";
+import { EditProfile } from "@/widgets/side-user";
 
 export function ProfileAuth() {
   const [controller, dispatch] = useMaterialTailwindController();
-  const { currentUser, getProfile, logoutUser } = useUsers();
+  const { currentUser, getProfile, logoutUser, getUserById } = useUsers();
   const [profile, setProfile] = React.useState({})
 
   React.useEffect(() => {
@@ -49,7 +49,7 @@ export function ProfileAuth() {
         className="absolute inset-0 z-0 h-full w-full object-cover"
       />
       <div className="mx-3 mt-12 mb-8 flex flex-col gap-12">
-        <EditUser currentUser={profile} />
+        <EditProfile />
         <Card className="mx-3 -mt-8 mb-6 lg:mx-4">
           <CardBody className="p-4">
             <div className="mb-10 flex items-center justify-between gap-6">
@@ -83,7 +83,11 @@ export function ProfileAuth() {
                 }}
                 action={
                   <Tooltip content="Edit Profile">
-                    <PencilIcon onClick={() => setOpenEditUser(dispatch, true)} className="h-4 w-4 cursor-pointer text-blue-gray-500" />
+                    <PencilIcon
+                      onClick={() => {
+                        setOpenEditProfile(dispatch, true);
+                      }}
+                      className="h-4 w-4 cursor-pointer text-blue-gray-500" />
                   </Tooltip>
                 }
               />

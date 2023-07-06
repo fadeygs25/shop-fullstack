@@ -23,7 +23,7 @@ export function CartsCheckout({ cart }) {
 
       <div className="w-full flex items-center">
         <div className="overflow-hidden rounded-lg w-16 h-16 bg-gray-50 border border-gray-200">
-          <img src={singleProduct?.image} alt="" />
+          <img src={singleProduct?.pic} alt="" />
         </div>
         <div className="flex-grow pl-3">
           <h6 className="font-semibold uppercase text-gray-600">{singleProduct?.nameProduct}</h6>

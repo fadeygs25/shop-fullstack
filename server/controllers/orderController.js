@@ -157,14 +157,17 @@ exports.deleteOrder = async (req, res, next) => {
 
     try {
         const orderId = req.params.id;
-        const q = "DELETE FROM orders WHERE `idorder` = ? ";
+        const query = 'DELETE FROM orders WHERE id_order = $1 ';
 
-        db.query(q, [orderId], (err, data) => {
-            if (err) return res.status(403).json("You can delete only your post!");
-
-            return res.json("Post has been deleted!");
+        const values = [
+            orderId
+            
+        ];
+        const result = await db.query(query, values);
+        res.json({
+            orderId: req.params.id,
+            toasts: [{ message: 'Blog deleted', type: 'success' }]
         });
-
     } catch (err) {
         console.error(`ERROR: ${err.message}`.bgRed.underline.bold);
         res.status(500).send('Server Error');

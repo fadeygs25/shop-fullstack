@@ -120,13 +120,6 @@ export function Navbar({ brandName, routes, routesAdmin, action }) {
             <MenuList className="w-max border-0">
               <MenuItem className="flex items-center gap-4">
                 <Button
-
-                  fullWidth>
-                  Change password
-                </Button>
-              </MenuItem>
-              <MenuItem className="flex items-center gap-4">
-                <Button
                   onClick={handleLogout}
                   fullWidth>
                   Log out

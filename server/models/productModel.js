@@ -6,32 +6,23 @@ const productSchema = new mongoose.Schema({
 
     nameProduct: {
         type: String,
-        required: [true, 'Please add a product Name'],
     },
 
     price: {
         type: Number,
-        required: [true, 'Product must have a price'],
     },
 
-    image: {
+    pic: {
         type: String,
-        required: true,
-
     },
 
-    imageId: {
+    picId: {
         type: String,
-        required: true,
-
     },
 
     categoryId: {
         type: String,
-        required: [true, 'Product must belong to a category'],
     },
-
-
 
 
 }, { timestamps: true });

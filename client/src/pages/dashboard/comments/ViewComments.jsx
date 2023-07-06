@@ -57,7 +57,7 @@ export function ViewComments() {
                                     <tr key={product._id}>
                                         <td className="py-3 px-5 border-b border-blue-gray-50">
                                             <div className="flex items-center gap-4">
-                                                <Avatar src={product.image} alt={product.name} size="sm" />
+                                                <Avatar src={product.pic} alt={product.name} size="sm" />
                                                 <div>
                                                     <Typography
                                                         variant="small"

@@ -7,20 +7,18 @@ const colors = require('colors');
 
 exports.createProduct = async (req, res, next) => {
 
-    const { nameProduct, price, image, categoryId } = req.body;
-
-
     try {
+        const { nameProduct, price, image, categoryId } = req.body;
         const result = await cloudinary.uploader.upload(image, {
             folder: "products",
-            // width: 300,
-            // crop: "scale"
+            width: 1000,
+            crop: "scale"
         })
         const product = await Product.create({
             nameProduct,
             price,
-            image: result.secure_url,
-            imageId: result.public_id,
+            pic: result.secure_url,
+            picId: result.public_id,
             categoryId
         });
         res.json(product)
@@ -88,40 +86,39 @@ exports.searchProduct = async (req, res, next) => {
 exports.updateProduct = async (req, res, next) => {
     try {
         //current product
-        const currentProduct = await Product.findById(req.params.id);
-        const form = req.body.form
+        const product = await Product.findByIdAndUpdate(req.params.id);
+        const form = req.body
         //build the data object
-        const data = {
-            name: form.name,
-            description: form.description,
-            price: form.price,
-            category: form.category,
-            image: form.image
-        }
-        //modify image conditionnally
-        if (req.body.image !== '') {
-            const ImgId = currentProduct.imageId;
-            if (ImgId) {
-                await cloudinary.uploader.destroy(ImgId);
+        console.log(req.body)
+
+        if (product) {
+            //if you want to update usernamse or email
+            product.nameProduct = form.nameProduct || product.nameProduct;
+            product.description = form.description || product.description;
+            product.price = form.price || product.price;
+            product.categoryId = form.categoryId || product.categoryId;
+
+            if (req.body.image) {
+                const ImgId = product.picId;
+                if (ImgId) {
+                    await cloudinary.uploader.destroy(ImgId);
+                }
+
+                const newImage = await cloudinary.uploader.upload(req.body.image, {
+                    folder: "products",
+                    width: 1000,
+                    crop: "scale"
+                });
+
+                product.pic = newImage.secure_url;
+                product.picId = newImage.public_id
             }
 
-            const newImage = await cloudinary.uploader.upload(req.body.image, {
-                folder: "products",
-                width: 1000,
-                crop: "scale"
-            });
-
-            data.image = newImage.secure_url;
-            data.imageId = newImage.public_id
+            const updatedProduct = await product.save();
+            res.json(updatedProduct);
+        } else {
+            res.status(401).send({ message: 'User not Found!' });
         }
-
-        const productUpdate = await Product.findOneAndUpdate(req.params.id, data, { new: true })
-
-        res.status(200).json({
-            success: true,
-            productUpdate
-        })
-
 
     } catch (err) {
         console.error(`ERROR: ${err.message}`.bgRed.underline.bold);

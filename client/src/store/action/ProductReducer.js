@@ -9,7 +9,6 @@ export default (state, action) => {
             return {
                 ...state,
                 productCreated: true,
-                currentProduct: action.payload,
                 products: [...products, action.payload]
             }
         case ActionTypes.GET_PRODUCTS_SUCCESS:
@@ -31,7 +30,6 @@ export default (state, action) => {
         case ActionTypes.UPDATE_PRODUCT:
             return {
                 ...state,
-                currentProduct: action.payload,
                 products: state.products.map(product => product._id === action.payload._id ? action.payload : product)
             }
         case ActionTypes.PRODUCT_DELETE:

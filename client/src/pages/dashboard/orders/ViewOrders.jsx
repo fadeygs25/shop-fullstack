@@ -19,14 +19,12 @@ export function ViewOrders() {
     const { orders, getOrders } = useOrders();
     const [myOrders, setMyOrders] = React.useState([]);
     React.useEffect(() => {
-        if (!orders) {
-            getOrders()
-        }
+        getOrders()
+    }, [])
 
-        if (orders) {
-            setMyOrders(orders)
-        }
-    }, [orders, getOrders])
+    React.useEffect(() => {
+        setMyOrders(orders)
+    }, [orders])
 
 
     return (
@@ -66,7 +64,7 @@ export function ViewOrders() {
                         </thead>
                         <tbody>
                             {
-                                myOrders.slice().map((order) => (
+                                myOrders.map((order) => (
                                     <ViewOrder key={order.id_order} order={order} />
                                 ))
                             }

@@ -9,7 +9,7 @@ import {
     Tabs,
     TabsHeader,
     Tab,
-    
+
     Switch,
     Tooltip,
     Button,
@@ -39,7 +39,7 @@ export function ProductList({ product }) {
                 className="mx-0 mt-0 mb-4 h-64 xl:h-40"
             >
                 <img
-                    src={product.image}
+                    src={product.pic}
                     className="h-full w-full object-cover"
                 />
             </CardHeader>

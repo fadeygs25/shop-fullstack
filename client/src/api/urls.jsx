@@ -24,6 +24,7 @@ export const PRODUCT_CREATE_URL = PRODUCTS_URL + '/create';
 export const PRODUCT_DELETE_URL = PRODUCTS_URL + '/delete/';
 export const PRODUCT_BY_ID_URL = PRODUCTS_URL + '/find/';
 export const PRODUCT_COUNT_URL = PRODUCTS_URL + '/countProducts';
+export const PRODUCT_UPDATE_URL = PRODUCTS_URL + '/update/';
 
 
 export const CATEGORIES_URL = BASE_URL + '/api/category';
@@ -31,6 +32,7 @@ export const CATEGORIES_FETCH_URL = CATEGORIES_URL + '/all';
 export const CATEGORY_CREATE_URL = CATEGORIES_URL + '/create';
 export const CATEGORY_DELETE_URL = CATEGORIES_URL + '/delete/';
 export const CATEGORY_BY_ID_URL = CATEGORIES_URL + '/find/';
+export const CATEGORY_UPDATE_URL = CATEGORIES_URL + '/update/';
 
 
 export const RATINGS_URL = BASE_URL + '/api/rating';
@@ -61,3 +63,4 @@ export const ORDER_PAY_URL = ORDERS_URL + '/pay';
 export const ORDER_TRACK_URL = ORDERS_URL + '/track/';
 export const ORDER_BY_ID_URL = ORDERS_URL + '/find/';
 export const ORDER_COUNT_URL = ORDERS_URL + '/countOrders';
+export const ORDER_DELETE_URL = ORDERS_URL + '/delete/';
