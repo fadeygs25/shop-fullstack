@@ -1,5 +1,5 @@
-// const BASE_URL = 'http://localhost:5000';
-const BASE_URL = 'http://52.35.64.22';
+const BASE_URL = 'https://shoppaixing.com';
+// const BASE_URL = 'http://52.35.64.22';
 
 export const FOODS_URL = BASE_URL + '/api/foods';
 export const FOODS_TAGS_URL = FOODS_URL + '/tags';
